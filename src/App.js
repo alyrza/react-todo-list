@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import Task from "./Task/Task";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+  render() {
+    return (
+      <div className="wrapper">
+        <div className="task-input">
+          <ion-icon name="create-outline"></ion-icon>
+          <input type="text" placeholder="Add a New Task + Enter" />
+        </div>
+        <div className="controls">
+          <div className="filters">
+            <span className="active" id="all">
+              All
+            </span>
+            <span id="pending">Pending</span>
+            <span id="completed">Completed</span>
+          </div>
+          <button className="clear-btn">Clear All</button>
+        </div>
+        <ul className="task-box">
+          <Task />
+        </ul>
+      </div>
+    );
+  }
 }
-
-export default App;
