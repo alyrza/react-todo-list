@@ -7,7 +7,7 @@ class Task extends Component {
       <li className="task">
         <label>
           <input type="checkbox" />
-          <p>todo.name</p>
+          <p>{this.props.text}</p>
         </label>
         <div className="settings">
           <i className="uil uil-ellipsis-h"></i>
