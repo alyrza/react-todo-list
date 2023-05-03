@@ -3,6 +3,15 @@ import "./App.css";
 import Task from "./Task/Task";
 
 export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      tasks: [
+        { id: 1, text: "read newspaper", status: false },
+        { id: 2, text: "Math class", status: false },
+      ],
+    };
+  }
   render() {
     return (
       <div className="wrapper">
@@ -21,7 +30,13 @@ export default class App extends Component {
           <button className="clear-btn">Clear All</button>
         </div>
         <ul className="task-box">
-          <Task />
+          {this.state.tasks.length ? (
+            this.state.tasks.map(task=>{
+              return (<Task key={task.id} />)
+            })
+          ) : (
+            <span>You don't have any task here</span>
+          )}
         </ul>
       </div>
     );
