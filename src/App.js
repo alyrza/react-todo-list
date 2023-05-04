@@ -11,9 +11,11 @@ export default class App extends Component {
         { id: 2, text: "Math class", completed: true },
       ],
       inputValue: "",
+      currentFiltre: "all",
     };
     this.deleteTask = this.deleteTask.bind(this);
     this.editTask = this.editTask.bind(this);
+    this.filterHandler = this.filterHandler.bind(this);
   }
 
   changeHandler(event) {
@@ -56,6 +58,10 @@ export default class App extends Component {
     this.setState({ tasks: newTasks });
   }
 
+  filterHandler(status) {
+    this.setState({ currentFiltre: status });
+  }
+
   render() {
     return (
       <div className="wrapper">
@@ -75,17 +81,36 @@ export default class App extends Component {
 
         <div className="controls">
           <div className="filters">
-            <span className="active" id="all">
+            <span
+              className="active"
+              onClick={() => {
+                this.filterHandler("all");
+              }}
+            >
               All
             </span>
-            <span id="pending">Pending</span>
-            <span id="completed">Completed</span>
+            <span
+              id="pending"
+              onClick={() => {
+                this.filterHandler("pending");
+              }}
+            >
+              Pending
+            </span>
+            <span
+              id="completed"
+              onClick={() => {
+                this.filterHandler("completed");
+              }}
+            >
+              Completed
+            </span>
           </div>
           <button className="clear-btn">Clear All</button>
         </div>
 
         <ul className="task-box">
-          {this.state.tasks.length ? (
+          {this.state.currentFiltre === "all" &&
             this.state.tasks.map((task) => {
               return (
                 <Task
@@ -95,7 +120,36 @@ export default class App extends Component {
                   onEdit={this.editTask}
                 />
               );
-            })
+            })}
+          {this.state.currentFiltre === "pending" &&
+            this.state.tasks
+              .filter((task) => task.completed === false)
+              .map((task) => {
+                return (
+                  <Task
+                    key={task.id}
+                    {...task}
+                    onDelete={this.deleteTask}
+                    onEdit={this.editTask}
+                  />
+                );
+              })}
+          {this.state.currentFiltre === "completed" &&
+            this.state.tasks
+              .filter((task) => task.completed === true)
+              .map((task) => {
+                return (
+                  <Task
+                    key={task.id}
+                    {...task}
+                    onDelete={this.deleteTask}
+                    onEdit={this.editTask}
+                  />
+                );
+              })}
+
+          {this.state.tasks.length ? (
+            ""
           ) : (
             <span>You don't have any task here</span>
           )}
