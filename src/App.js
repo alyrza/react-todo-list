@@ -7,11 +7,13 @@ export default class App extends Component {
     super();
     this.state = {
       tasks: [
-        { id: 1, text: "read newspaper", status: false },
-        { id: 2, text: "Math class", status: false },
+        { id: 1, text: "read newspaper", completed: false },
+        { id: 2, text: "Math class", completed: true },
       ],
       inputValue: "",
     };
+    this.deleteTask = this.deleteTask.bind(this);
+    this.editTask = this.editTask.bind(this);
   }
 
   changeHandler(event) {
@@ -23,7 +25,7 @@ export default class App extends Component {
       let newTask = {
         id: this.state.tasks.length + 1,
         text: this.state.inputValue,
-        status: false,
+        completed: false,
       };
 
       // add task and clear input
@@ -32,6 +34,26 @@ export default class App extends Component {
         inputValue: "",
       });
     }
+  }
+
+  deleteTask(id) {
+    this.setState((prevStates) => {
+      let newTasks = prevStates.tasks.filter((task) => {
+        return task.id !== id;
+      });
+      return { tasks: newTasks };
+    });
+  }
+
+  editTask(id) {
+    let newTasks = [...this.state.tasks];
+    newTasks.forEach((task) => {
+      if (task.id === id) {
+        task.completed = !task.completed;
+      }
+    });
+
+    this.setState({ tasks: newTasks });
   }
 
   render() {
@@ -65,7 +87,14 @@ export default class App extends Component {
         <ul className="task-box">
           {this.state.tasks.length ? (
             this.state.tasks.map((task) => {
-              return <Task key={task.id} {...task} />;
+              return (
+                <Task
+                  key={task.id}
+                  {...task}
+                  onDelete={this.deleteTask}
+                  onEdit={this.editTask}
+                />
+              );
             })
           ) : (
             <span>You don't have any task here</span>
