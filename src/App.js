@@ -82,7 +82,9 @@ export default class App extends Component {
         <div className="controls">
           <div className="filters">
             <span
-              className="active"
+              className={`${
+                this.state.currentFiltre === "all" ? "active" : ""
+              }`}
               onClick={() => {
                 this.filterHandler("all");
               }}
@@ -90,6 +92,9 @@ export default class App extends Component {
               All
             </span>
             <span
+              className={`${
+                this.state.currentFiltre === "pending" ? "active" : ""
+              }`}
               id="pending"
               onClick={() => {
                 this.filterHandler("pending");
@@ -98,6 +103,9 @@ export default class App extends Component {
               Pending
             </span>
             <span
+              className={`${
+                this.state.currentFiltre === "completed" ? "active" : ""
+              }`}
               id="completed"
               onClick={() => {
                 this.filterHandler("completed");
